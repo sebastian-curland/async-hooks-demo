@@ -1,20 +1,21 @@
 'use strict'
 
-const http = require('http')
-const port = 3000
-
-const requestHandler = (request, response) => {
-    setTimeout(() => {
-      throw new Error('MY ERROR') 
-    })
+const f1 = () => {
+  setTimeout(()=>{
+    f2()
+  })
 }
 
-let server = http.createServer(requestHandler)
+const f2 = () => {
+  setTimeout(()=>{
+    f3()
+  })
+}
 
-server.listen(port, (err) => {
-    if (err) {
-        return console.log('something bad happened', err)
-    }
+const f3 = () => {
+  setTimeout(()=>{
+    throw new Error('MY ERROR')
+  })
+}
 
-    console.log(`server is listening on ${port}`)
-})
+f1()

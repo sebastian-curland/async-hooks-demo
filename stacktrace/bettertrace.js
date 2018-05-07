@@ -1,25 +1,25 @@
 'use strict'
 
 const ah = require('./asynchooks')
-const http = require('http')
-const port = 3000
 
-const requestHandler = (request, response) => {
-    setTimeout(() => {
-        try {
-            throw new Error('MY ERROR')
-        } catch (err) {
-            console.log(ah.getError('MY ERROR'))
-        }
-    })
+const f1 = () => {
+  setTimeout(()=>{
+    f2()
+  })
 }
 
-let server = http.createServer(requestHandler)
+const f2 = () => {
+  setTimeout(()=>{
+    f3()
+  })
+}
 
-server.listen(port, (err) => {
-    if (err) {
-        return console.log('something bad happened', err)
-    }
+const f3 = () => {
+  try {
+    throw new Error('MY ERROR')
+  } catch (err) {
+    console.log(ah.getError('MY ERROR'))
+  }
+}
 
-    console.log(`server is listening on ${port}`)
-})
+f1()
